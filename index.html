@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SLITE-GAME-SYSTEM</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-pVnHk5Gm5z0xI+3c1p1UqD0Gn06WlIhXd3U7R/bDpX4E0q5U6t1QhXr0tZ0sN+3W9c9k6uOZ+1pT9pzqbkx0+g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <style>
+      .logo h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #0099ff;
+        text-shadow: 0 0 10px #0099ff;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-family: "Poppins", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+      .rocket {
+        color: #0099ff;
+      }
+      .hero-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .glow {
+        box-shadow: 0 0 20px rgba(0, 153, 255, 0.5);
+      }
+
+      /* Mobile menu animation */
+      #mobile-menu {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease;
+      }
+
+      #mobile-menu.menu-open {
+        max-height: 500px;
+        opacity: 1;
+      }
+
+      #mobile-menu.menu-closing {
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.2s ease;
+      }
+
+      #mobile-menu-btn {
+        z-index: 60;
+        transition: transform 0.3s ease;
+      }
+
+      #mobile-menu-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* Mobile menu content animation */
+      #mobile-menu .px-4 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease;
+      }
+
+      #mobile-menu.menu-open .px-4 {
+        transform: translateY(0);
+        opacity: 1;
+        transition-delay: 0.1s;
+      }
+
+      #mobile-menu.menu-closing .px-4 {
+        transform: translateY(-20px);
+        opacity: 0;
+        transition: transform 0.2s ease, opacity 0.15s ease;
+      }
+
+      /* Mobile menu items animation */
+      #mobile-menu .px-4 a {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      #mobile-menu.menu-open .px-4 a {
+        transform: translateX(0);
+        opacity: 1;
+      }
+
+      #mobile-menu.menu-closing .px-4 a {
+        transform: translateX(-20px);
+        opacity: 0;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+
+      /* Hover effects - always responsive */
+      #mobile-menu.menu-open .px-4 a:hover {
+        color: #60a5fa !important;
+        background-color: rgba(55, 65, 81, 0.5) !important;
+        transition: color 0.2s ease, background-color 0.2s ease !important;
+        transition-delay: 0s !important;
+      }
+
+      /* Staggered animation for menu items - csak nyitáskor */
+      #mobile-menu.menu-open .px-4 a:nth-child(1) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.2s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(2) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.25s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(3) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.3s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(4) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.35s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(5) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.4s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(6) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.45s;
+      }
+      #mobile-menu.menu-open .px-4 a:nth-child(7) {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0.5s;
+      }
+
+      /* Miután az animáció befejeződött, töröljük a delay-t a hover-hez */
+      #mobile-menu.menu-open .px-4 a.animation-complete {
+        transition: color 0.2s ease, background-color 0.2s ease,
+          transform 0.3s ease, opacity 0.3s ease;
+        transition-delay: 0s;
+      }
+
+      /* Hamburger icon animation */
+      #mobile-menu-btn i {
+        transition: transform 0.3s ease;
+      }
+
+      #mobile-menu-btn.active i {
+        transform: rotate(180deg);
+      }
+
+      /* Mobile menu overlay */
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 40;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Pulse animation for hamburger when hovering */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      #mobile-menu-btn:active {
+        animation: pulse 0.2s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white font-['Poppins']">
+    <!-- Navigation -->
+    <nav class="bg-gray-800/80 backdrop-blur-sm fixed w-full z-50">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between py-4">
+          <div class="logo">
+            <h1><i class="fas fa-rocket rocket mr-2"></i>SliteMTA</h1>
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#home"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Kezdőlap</a
+            >
+            <a
+              href="#features"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Jellemzők</a
+            >
+            <a
+              href="#shop"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Premium Shop</a
+            >
+            <a
+              href="#rules"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Szabályok</a
+            >
+            <a
+              href="#contact"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Kapcsolat</a
+            >
+            <a
+              href="#connect"
+              class="text-gray-300 hover:text-blue-400 transition-colors"
+              >Csatlakozás</a
+            >
+          </div>
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-btn"
+              class="text-white hover:text-blue-400 transition-colors"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-gray-800/95 backdrop-blur-sm">
+          <div class="px-4 pt-2 pb-4 space-y-1">
+            <a
+              href="#home"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Kezdőlap</a
+            >
+            <a
+              href="#features"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Jellemzők</a
+            >
+            <a
+              href="#shop"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Premium Shop</a
+            >
+            <a
+              href="#rules"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Szabályok</a
+            >
+            <a
+              href="#contact"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Kapcsolat</a
+            >
+            <a
+              href="#connect"
+              class="block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700/50 rounded-md transition-colors"
+              >Csatlakozás</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden"
+    >
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="container mx-auto px-4 text-center relative z-10">
+        <h1 class="text-6xl md:text-8xl font-bold mb-6 text-white">
+          <i class="fas fa-rocket text-blue-400 mr-4"></i>SliteMTA
+        </h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
+          Magyarország legjobb MTA Roleplay szervere. Éld át a valóságos életet
+          egy virtuális világban!
+        </p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">
+          <i class="fas fa-star text-blue-400 mr-4"></i>Miért válassz minket?
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-gray-700 p-8 rounded-lg card-hover">
+            <div class="text-blue-400 text-4xl mb-4">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-white">Erős Közösség</h3>
+            <p class="text-gray-300">
+              Napi szinten több tucat játékos, jó hangulat, barátságos tagok és
+              mindig jelenlévő staff.
+            </p>
+          </div>
+
+          <div class="bg-gray-700 p-8 rounded-lg card-hover">
+            <div class="text-blue-400 text-4xl mb-4">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-white">
+              Innovatív Rendszerek
+            </h3>
+            <p class="text-gray-300">
+              Egyedi munkák, részletes gazdaság, fejlett frakciók, jármű- és
+              ingatlanrendszer – minden a valódi élményért.
+            </p>
+          </div>
+
+          <div class="bg-gray-700 p-8 rounded-lg card-hover">
+            <div class="text-blue-400 text-4xl mb-4">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-white">
+              Fair és Biztonságos
+            </h3>
+            <p class="text-gray-300">
+              Modern anti-cheat védelem, aktív moderáció és garantált
+              tisztességes játékmenet minden játékos számára.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Server Stats -->
+    <!-- <section class="py-16 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8 text-center">
+          <div class="bg-blue-600/20 p-6 rounded-lg border border-blue-500/30">
+            <div class="text-blue-400 text-3xl mb-2">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="text-3xl font-bold text-white">150+</div>
+            <div class="text-gray-300">Online Játékos</div>
+          </div>
+          <div
+            class="bg-green-600/20 p-6 rounded-lg border border-green-500/30"
+          >
+            <div class="text-green-400 text-3xl mb-2">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="text-3xl font-bold text-white">24/7</div>
+            <div class="text-gray-300">Szerver Uptime</div>
+          </div>
+          <div
+            class="bg-purple-600/20 p-6 rounded-lg border border-purple-500/30"
+          >
+            <div class="text-purple-400 text-3xl mb-2">
+              <i class="fas fa-map"></i>
+            </div>
+            <div class="text-3xl font-bold text-white">50+</div>
+            <div class="text-gray-300">Egyedi Helyszín</div>
+          </div>
+          <div
+            class="bg-orange-600/20 p-6 rounded-lg border border-orange-500/30"
+          >
+            <div class="text-orange-400 text-3xl mb-2">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="text-3xl font-bold text-white">5+</div>
+            <div class="text-gray-300">Év Tapasztalat</div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Premium Shop Section -->
+    <section id="shop" class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">
+          <i class="fas fa-crown text-yellow-400 mr-4"></i>Premium Shop
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <!-- Bronze Package -->
+          <div
+            class="bg-gradient-to-br from-amber-700 to-amber-900 p-8 rounded-lg card-hover border border-amber-500/30 flex flex-col h-full"
+          >
+            <div class="text-center mb-6">
+              <div class="text-amber-400 text-5xl mb-4">
+                <i class="fas fa-medal"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Bronze csomag</h3>
+              <div class="text-3xl font-bold text-amber-400 mb-2">5,000 Ft</div>
+            </div>
+            <ul class="space-y-3 text-gray-200 mb-8 flex-grow">
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>50000
+                Prémiumpont
+              </li>
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>3 napos discord
+                VIP rang
+              </li>
+            </ul>
+            <button
+              class="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 mt-auto"
+            >
+              <i class="fas fa-shopping-cart mr-2"></i>Vásárlás
+            </button>
+          </div>
+
+          <!-- Silver Package -->
+          <div
+            class="bg-gradient-to-br from-gray-400 to-gray-600 p-8 rounded-lg card-hover border border-gray-300/30 relative flex flex-col h-full"
+          >
+            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+              <span
+                class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold"
+                >Legnépszerűbb</span
+              >
+            </div>
+            <div class="text-center mb-6">
+              <div class="text-gray-300 text-5xl mb-4">
+                <i class="fas fa-crown"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Silver csomag</h3>
+              <div class="text-3xl font-bold text-gray-300 mb-2">10,000 Ft</div>
+            </div>
+            <ul class="space-y-3 text-gray-200 mb-8 flex-grow">
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>250000
+                Prémiumpont
+              </li>
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>1 hét discord
+                VIP rang
+              </li>
+            </ul>
+            <button
+              class="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 mt-auto"
+            >
+              <i class="fas fa-shopping-cart mr-2"></i>Vásárlás
+            </button>
+          </div>
+
+          <!-- Gold Package -->
+          <div
+            class="bg-gradient-to-br from-yellow-600 to-yellow-800 p-8 rounded-lg card-hover border border-yellow-500/30 flex flex-col h-full"
+          >
+            <div class="text-center mb-6">
+              <div class="text-yellow-400 text-5xl mb-4">
+                <i class="fas fa-gem"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">Gold csomag</h3>
+              <div class="text-3xl font-bold text-yellow-400 mb-2">
+                15,000 Ft
+              </div>
+            </div>
+            <ul class="space-y-3 text-gray-200 mb-8 flex-grow">
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>350,000
+                Prémiumpont
+              </li>
+              <li>
+                <i class="fas fa-check text-green-400 mr-2"></i>3 hét discord
+                VIP rang
+              </li>
+            </ul>
+            <button
+              class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 mt-auto"
+            >
+              <i class="fas fa-shopping-cart mr-2"></i>Vásárlás
+            </button>
+          </div>
+        </div>
+
+        <!-- Additional Items -->
+        <div class="mt-16">
+          <h3 class="text-2xl font-bold text-center mb-8 text-white">
+            <i class="fas fa-gift text-blue-400 mr-4"></i>Egyéb Termékek
+          </h3>
+          <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div class="bg-gray-700 p-6 rounded-lg text-center card-hover">
+              <div class="text-blue-400 text-3xl mb-4">
+                <i class="fas fa-car"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-white mb-2">
+                Egyedi Jármű
+              </h4>
+              <div class="text-blue-400 font-bold mb-2">7,500 Ft</div>
+              <p class="text-gray-300 text-sm mb-4">Egyedi jármű</p>
+              <button
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-semibold transition-all duration-300"
+              >
+                Vásárlás
+              </button>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg text-center card-hover">
+              <div class="text-green-400 text-3xl mb-4">
+                <i class="fas fa-home"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-white mb-2">
+                Egyedi birtok
+              </h4>
+              <div class="text-green-400 font-bold mb-2">
+                Ár megbeszélés szerint
+              </div>
+              <p class="text-gray-300 text-sm mb-4">Egyedi birtok</p>
+              <button
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-semibold transition-all duration-300"
+              >
+                Vásárlás
+              </button>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg text-center card-hover">
+              <div class="text-purple-400 text-3xl mb-4">
+                <i class="fas fa-user-edit"></i>
+              </div>
+              <h4 class="text-lg font-semibold text-white mb-2">Egyedi Skin</h4>
+              <div class="text-purple-400 font-bold mb-2">4,000 Ft</div>
+              <p class="text-gray-300 text-sm mb-4">Egyedi karakter skin</p>
+              <button
+                class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm font-semibold transition-all duration-300"
+              >
+                Vásárlás
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rules Section -->
+    <section id="rules" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">
+          <i class="fas fa-gavel text-blue-400 mr-4"></i>Szerver Szabályok
+        </h2>
+        <div class="grid md:grid-cols-1 gap-8 max-w-4xl mx-auto">
+          <div class="bg-gray-700 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4 text-blue-400">
+              <i class="fas fa-check-circle mr-2"></i>Szabályzat
+            </h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>
+                <i class="fas fa-arrow-right text-green-400 mr-2"></i>A szerver
+                illetve Discord szabályzatot megtalálod a
+                <a
+                  class="text-blue-400 hover:text-blue-500 hover:transition-all duration-300"
+                  href="rules.html"
+                  target="_blank"
+                  >slitemtaszabalyzat.hu</a
+                >
+                oldalon.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16 text-white">
+          <i class="fas fa-envelope text-blue-400 mr-4"></i>Kapcsolat
+        </h2>
+        <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <!-- Contact Form -->
+          <div class="bg-gray-700 p-8 rounded-lg">
+            <h3 class="text-2xl font-semibold mb-6 text-white">
+              Küldj üzenetet
+            </h3>
+            <form class="space-y-4">
+              <div>
+                <label class="block text-gray-300 mb-2">Név</label>
+                <input
+                  type="text"
+                  class="w-full bg-gray-600 text-white px-4 py-3 rounded-lg border border-gray-500 focus:border-blue-400 focus:outline-none transition-colors"
+                  placeholder="Az Ön neve"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  class="w-full bg-gray-600 text-white px-4 py-3 rounded-lg border border-gray-500 focus:border-blue-400 focus:outline-none transition-colors"
+                  placeholder="pelda@email.com"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-300 mb-2">Tárgy</label>
+                <select
+                  class="w-full bg-gray-600 text-white px-4 py-3 rounded-lg border border-gray-500 focus:border-blue-400 focus:outline-none transition-colors"
+                >
+                  <option>Válassz tárgyat...</option>
+                  <option>Technikai probléma</option>
+                  <option>Játékos jelentés</option>
+                  <option>VIP kérdés</option>
+                  <option>Egyéb</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-gray-300 mb-2">Üzenet</label>
+                <textarea
+                  rows="5"
+                  class="w-full bg-gray-600 text-white px-4 py-3 rounded-lg border border-gray-500 focus:border-blue-400 focus:outline-none transition-colors resize-none"
+                  placeholder="Írja le üzenetét..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-all duration-300"
+              >
+                <i class="fas fa-paper-plane mr-2"></i>Üzenet küldése
+              </button>
+            </form>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="space-y-8">
+            <div class="bg-gray-700 p-6 rounded-lg">
+              <h3 class="text-xl font-semibold mb-4 text-white">
+                <i class="fas fa-info-circle text-blue-400 mr-2"></i>Kapcsolati
+                információk
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <div class="text-blue-400 text-xl mr-4">
+                    <i class="fab fa-discord"></i>
+                  </div>
+                  <div>
+                    <div class="text-white font-semibold">Discord Szerver</div>
+                    <div class="text-gray-300">
+                      <a href="https://discord.gg/4eJCeVuFqx" target="_blank"
+                        >https://discord.gg/4eJCeVuFqx</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <div class="text-red-400 text-xl mr-4">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div>
+                    <div class="text-white font-semibold">Email</div>
+                    <div class="text-gray-300">
+                      <a href="mailto:info@stellarrp.hu" target="_blank"
+                        >hamarosan...</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <div class="text-green-400 text-xl mr-4">
+                    <i class="fas fa-gamepad"></i>
+                  </div>
+                  <div>
+                    <div class="text-white font-semibold">Szerver IP</div>
+                    <div class="text-gray-300">
+                      <a href="mtasa://213.181.206.22:22430" target="_blank"
+                        >mtasa://213.181.206.22:22430</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-700 p-6 rounded-lg">
+              <h3 class="text-xl font-semibold mb-4 text-white">
+                <i class="fas fa-users text-purple-400 mr-2"></i>Közösségi média
+              </h3>
+              <div class="flex space-x-4">
+                <a
+                  href="https://discord.gg/4eJCeVuFqx"
+                  target="_blank"
+                  class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-all duration-300"
+                >
+                  <i class="fab fa-discord text-xl"></i>
+                </a>
+                <a
+                  href="#"
+                  class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg transition-all duration-300"
+                >
+                  <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a
+                  href="#"
+                  class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-lg transition-all duration-300"
+                >
+                  <i class="fab fa-facebook text-xl"></i>
+                </a>
+                <a
+                  href="#"
+                  class="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-all duration-300"
+                >
+                  <i class="fab fa-instagram text-xl"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect" class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-8 text-white">
+          <i class="fas fa-gamepad text-blue-400 mr-4"></i>Csatlakozás a
+          Szerverhez
+        </h2>
+        <div class="bg-gray-800 p-8 rounded-lg max-w-2xl mx-auto">
+          <div class="mb-6">
+            <h3 class="text-2xl font-semibold mb-4 text-white">
+              Szerver Információk
+            </h3>
+            <div class="grid md:grid-cols-2 gap-4 text-left">
+              <div class="bg-gray-700 p-4 rounded">
+                <div class="text-blue-400 font-semibold">IP Cím:</div>
+                <div class="text-white">mtasa://213.181.206.22:22430</div>
+              </div>
+              <div class="bg-gray-700 p-4 rounded">
+                <div class="text-blue-400 font-semibold">Port:</div>
+                <div class="text-white">22430</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Csak link, teljes gomb kattintható -->
+            <a
+              href="mtasa://213.181.206.22:22430"
+              class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 w-full md:w-auto inline-flex items-center justify-center"
+            >
+              <i class="fas fa-play mr-2"></i>Csatlakozás most
+            </a>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+              <a
+                href="https://discord.gg/4eJCeVuFqx"
+                target="_blank"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center justify-center"
+              >
+                <i class="fab fa-discord mr-2"></i>Discord
+              </a>
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center justify-center"
+              >
+                <i class="fab fa-youtube mr-2"></i>YouTube
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 inline-flex items-center justify-center"
+              >
+                <i class="fab fa-facebook mr-2"></i>Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8">
+      <div class="container mx-auto px-4 text-center">
+        <div class="logo mb-4">
+          <h1><i class="fas fa-rocket rocket mr-2"></i>SliteMTA</h1>
+        </div>
+        <p class="text-gray-400 mb-4">
+          © 2025 SliteMTA. Minden jog fenntartva.
+        </p>
+        <div class="flex justify-center space-x-4 text-gray-400">
+          <a href="#" class="hover:text-blue-400 transition-colors">
+            <i class="fab fa-discord text-xl"></i>
+          </a>
+          <a href="#" class="hover:text-red-400 transition-colors">
+            <i class="fab fa-youtube text-xl"></i>
+          </a>
+          <a href="#" class="hover:text-blue-600 transition-colors">
+            <i class="fab fa-facebook text-xl"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+            });
+          }
+
+          // Close mobile menu when clicking on a link
+          const mobileMenu = document.getElementById("mobile-menu");
+          if (mobileMenu && mobileMenu.classList.contains("menu-open")) {
+            // Trigger the same closing animation
+            const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+            const overlay = document.getElementById("mobile-menu-overlay");
+            const menuIcon = document.querySelector("#mobile-menu-btn i");
+
+            // Azonnal indítjuk a bezárási animációt
+            mobileMenu.classList.remove("menu-open");
+            mobileMenu.classList.add("menu-closing");
+            mobileMenuBtn.classList.remove("active");
+            if (overlay) overlay.classList.remove("active");
+
+            // Remove animation-complete class for next opening
+            const menuLinks = mobileMenu.querySelectorAll(".px-4 a");
+            menuLinks.forEach((link) => {
+              link.classList.remove("animation-complete");
+            });
+
+            if (menuIcon) {
+              menuIcon.classList.remove("fa-times");
+              menuIcon.classList.add("fa-bars");
+            }
+
+            // Reset classes after animation completes
+            setTimeout(() => {
+              mobileMenu.classList.remove("menu-closing");
+            }, 300);
+          }
+        });
+      });
+
+      // Mobile menu toggle functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuIcon = document.querySelector("#mobile-menu-btn i");
+        const overlay = document.getElementById("mobile-menu-overlay");
+
+        function closeMobileMenu() {
+          // Azonnal indítjuk a bezárási animációt
+          mobileMenu.classList.remove("menu-open");
+          mobileMenu.classList.add("menu-closing");
+          mobileMenuBtn.classList.remove("active");
+          if (overlay) overlay.classList.remove("active");
+
+          // Remove animation-complete class for next opening
+          const menuLinks = mobileMenu.querySelectorAll(".px-4 a");
+          menuLinks.forEach((link) => {
+            link.classList.remove("animation-complete");
+          });
+
+          // Icon change immediately
+          if (menuIcon) {
+            menuIcon.classList.remove("fa-times");
+            menuIcon.classList.add("fa-bars");
+          }
+
+          // Reset classes after animation completes
+          setTimeout(() => {
+            mobileMenu.classList.remove("menu-closing");
+          }, 300);
+        }
+
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            const isOpen = mobileMenu.classList.contains("menu-open");
+
+            if (!isOpen) {
+              // Opening animation
+              mobileMenu.classList.remove("menu-closing");
+              mobileMenu.classList.add("menu-open");
+              mobileMenuBtn.classList.add("active");
+              if (overlay) overlay.classList.add("active");
+
+              // Icon change with slight delay for smoother effect
+              setTimeout(() => {
+                if (menuIcon) {
+                  menuIcon.classList.remove("fa-bars");
+                  menuIcon.classList.add("fa-times");
+                }
+              }, 150);
+
+              // Remove transition delays after animation completes for better hover
+              setTimeout(() => {
+                const menuLinks = mobileMenu.querySelectorAll(".px-4 a");
+                menuLinks.forEach((link) => {
+                  link.classList.add("animation-complete");
+                });
+              }, 600); // Wait for all staggered animations to complete
+            } else {
+              closeMobileMenu();
+            }
+          });
+
+          // Close menu when clicking on overlay
+          if (overlay) {
+            overlay.addEventListener("click", closeMobileMenu);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

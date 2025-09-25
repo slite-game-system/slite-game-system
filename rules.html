@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SliteMTA - Szabályzat</title>
+    <style>
+      :root {
+        --primary: #1a1f2e;
+        --secondary: #252b3d;
+        --accent: #4a6fff;
+        --text: #e0e0e0;
+        --text-light: #a0a0a0;
+        --border: #3a4155;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--primary);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      header {
+        background-color: var(--secondary);
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--accent);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 1.5rem;
+      }
+
+      nav ul li a {
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.3s;
+        font-weight: 500;
+      }
+
+      nav ul li a:hover {
+        color: var(--accent);
+      }
+
+      .hero {
+        padding: 3rem 0;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-light);
+      }
+
+      .content-section {
+        padding: 3rem 0;
+      }
+
+      .section-title {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        color: var(--accent);
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+
+      .rules-container {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 2rem;
+      }
+
+      .rules-nav {
+        background-color: var(--secondary);
+        border-radius: 8px;
+        padding: 1.5rem;
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+      }
+
+      .rules-nav h3 {
+        margin-bottom: 1rem;
+        color: var(--accent);
+      }
+
+      .rules-nav ul {
+        list-style: none;
+      }
+
+      .rules-nav ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .rules-nav ul li a {
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.3s;
+        display: block;
+        padding: 0.5rem 0;
+      }
+
+      .rules-nav ul li a:hover {
+        color: var(--accent);
+      }
+
+      .rules-content {
+        background-color: var(--secondary);
+        border-radius: 8px;
+        padding: 2rem;
+      }
+
+      .rule-section {
+        margin-bottom: 3rem;
+        scroll-margin-top: 100px;
+      }
+
+      .rule-section h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .rule-item {
+        margin-bottom: 1.5rem;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 4px solid var(--accent);
+      }
+
+      .rule-item h4 {
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .rule-item p {
+        color: var(--text-light);
+      }
+
+      .term-list {
+        list-style-type: none;
+      }
+
+      .term-list li {
+        margin-bottom: 1rem;
+        padding-left: 1rem;
+        border-left: 3px solid var(--accent);
+      }
+
+      .term-list strong {
+        color: var(--accent);
+      }
+
+      footer {
+        background-color: var(--secondary);
+        padding: 2rem 0;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        color: var(--text-light);
+      }
+
+      .last-updated {
+        font-style: italic;
+        margin-top: 1rem;
+        color: var(--text-light);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .rules-container {
+          grid-template-columns: 1fr;
+        }
+
+        .rules-nav {
+          position: static;
+          margin-bottom: 1.5rem;
+        }
+
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        nav ul {
+          margin-top: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        nav ul li {
+          margin: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">SliteMTA</div>
+          <nav>
+            <ul>
+              <li><a href="#discord-rules">Discord Szabályzat</a></li>
+              <li><a href="#mta-rules">MTA Szabályok</a></li>
+              <li><a href="#concepts">Fogalmak</a></li>
+              <li><a href="#contact">Kapcsolat</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>SliteMTA Szabályzat</h1>
+        <p>
+          Itt találod a Discord szerverünk és az MTA szerverünk szabályait,
+          valamint a fontos fogalmak magyarázatát.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section" id="discord-rules">
+      <div class="container">
+        <h2 class="section-title">Discord Szabályzat</h2>
+        <div class="rules-container">
+          <div class="rules-nav">
+            <h3>Részlegek</h3>
+            <ul>
+              <li><a href="#general-rules">Általános szabályok</a></li>
+              <li><a href="#chat-rules">Chat szabályok</a></li>
+              <li><a href="#voice-rules">Hangcsatorna szabályok</a></li>
+              <li><a href="#moderation">Moderálás</a></li>
+              <li><a href="#appeals">Fellebbezések</a></li>
+            </ul>
+          </div>
+
+          <div class="rules-content">
+            <div class="rule-section" id="general-rules">
+              <h3>Általános szabályok</h3>
+
+              <div class="rule-item">
+                <h4>1. Tisztelet</h4>
+                <p>
+                  Mindig legyél tisztelettudó más felhasználókkal szemben.
+                  Semmilyen formájú zaklatás, megalázás vagy gyűlöletkeltés nem
+                  megengedett.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>2. Fiókok</h4>
+                <p>
+                  Csak egy fiókkal csatlakozhatsz a szerverhez. Másodlagos
+                  fiókok használata tiltott.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>3. Adatvédelmi szabályok</h4>
+                <p>
+                  Mások személyes adatainak közzététele (doxxing) szigorúan
+                  tilos. Ez magában foglalja a valódi nevét, címét,
+                  telefonszámát stb.
+                </p>
+              </div>
+            </div>
+
+            <div class="rule-section" id="chat-rules">
+              <h3>Chat szabályok</h3>
+
+              <div class="rule-item">
+                <h4>1. Spam és flood</h4>
+                <p>
+                  Spamelés, floodolás, nagy mennyiségű felesleges üzenet küldése
+                  tilos. Ez magában foglalja a CAPS LOCK használatát is.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>2. Megfelelő csatorna használata</h4>
+                <p>
+                  Mindig a megfelelő csatornán ossz meg tartalmakat. Ne beszélj
+                  játékról általános csatornán, vagy ne ossz meg memét a
+                  segítségkérés csatornán.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>3. NSFW tartalom</h4>
+                <p>
+                  Erősen szexuális, véres vagy egyéb felzaklató tartalom
+                  megosztása teljes mértékben tilos.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>4. Linkek megosztása</h4>
+                <p>
+                  Csak megbízható forrásokból származó linkek oszthatók meg.
+                  Phishing, vírusos vagy csaló oldalak linkjei tiltottak.
+                </p>
+              </div>
+            </div>
+
+            <div class="rule-section" id="voice-rules">
+              <h3>Hangcsatorna szabályok</h3>
+
+              <div class="rule-item">
+                <h4>1. Hangminőség</h4>
+                <p>
+                  Használj megfelelő mikrofont és minimalizáld a háttérzajt.
+                  Kerüld a hangtorzítást és a túl hangos beszédet.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>2. Hangbotok</h4>
+                <p>
+                  Hangbotok, zenelejátszók használata csak a kijelölt zene
+                  csatornákon megengedett.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>3. Trollkodás</h4>
+                <p>
+                  Szándékos háttérzaj, hangrögzítések lejátszása vagy mások
+                  hangcsatornájának megzavarása tilos.
+                </p>
+              </div>
+            </div>
+
+            <div class="rule-section" id="moderation">
+              <h3>Moderálás</h3>
+
+              <div class="rule-item">
+                <h4>1. Moderátori döntések</h4>
+                <p>
+                  A moderátorok döntései véglegesek. Ne vitázz velük nyilvános
+                  csatornákon.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>2. Moderátori segítség</h4>
+                <p>
+                  Ha problémád van egy másik felhasználóval, keress meg egy
+                  moderátort privát üzenetben.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>3. Szankciók</h4>
+                <p>
+                  A szabályszegésekért a következő szankciók alkalmazhatók:
+                  figyelmeztetés, timeout, kitiltás.
+                </p>
+              </div>
+            </div>
+
+            <div class="rule-section" id="appeals">
+              <h3>Fellebbezések</h3>
+
+              <div class="rule-item">
+                <h4>1. Fellebbezési folyamat</h4>
+                <p>
+                  Ha úgy érzed, hogy igazságtalanul bántak veled, kérheted a
+                  döntés felülvizsgálatát a fellebbezési rendszeren keresztül.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>2. Fellebbezés benyújtása</h4>
+                <p>
+                  Fellebbezést a weboldalunkon vagy a Discord szerveren
+                  található megfelelő csatornán keresztül lehet benyújtani.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>3. Válaszidő</h4>
+                <p>
+                  A fellebbezésekre általában 48 órán belül válaszolunk. Kérjük,
+                  legyél türelemmel.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="mta-rules">
+      <div class="container">
+        <h2 class="section-title">MTA Szabályok</h2>
+        <div class="rules-container">
+          <div class="rules-nav">
+            <h3>Kategóriák</h3>
+            <ul>
+              <li><a href="#gameplay-rules">Játékmenet szabályok</a></li>
+              <li><a href="#rp-rules">RP szabályok</a></li>
+              <li><a href="#vehicle-rules">Jármű szabályok</a></li>
+              <li><a href="#property-rules">Ingatlan szabályok</a></li>
+              <li><a href="#admin-rules">Adminisztrátori szabályok</a></li>
+            </ul>
+          </div>
+
+          <div class="rules-content">
+            <div class="rule-section" id="gameplay-rules">
+              <h3>Játékmenet szabályok</h3>
+
+              <div class="rule-item">
+                <h4>MG - MetaGaming - OOC információ felhasználása IC.</h4>
+                <p>
+                  Példa: chatboxból kiolvasod valaki nevét, majd szerepen belül
+                  felhasználod, pl.: feljelented.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>DM - DeathMatch - Ok nélküli ölés.</h4>
+                <p>
+                  Példa: az utcán valakit, véletlenszerűen megölsz, esetleg
+                  olyan indokból, amiért a valóságban sem tennéd, pl.: ellopják
+                  a kocsid, beszólt, karamboloztál vele.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>RK - RevengeKill - Halál utáni bosszú.l</h4>
+                <p>
+                  Példa: megölnek, halálod után korházba kerülsz, ilyenkor a
+                  gyilkosod nem keresheted fel és ölheted meg, tűzharc esetén az
+                  esemény lezajlásáig nem térhetsz vissza a helyszínre.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  PG - PowerGaming - Hősködés, olyan dolog amit a valóságban nem
+                  mernél megtenni.
+                </h4>
+                <p>
+                  Példa: többen fegyvert fognak rád és nem teljesíted kérésüket,
+                  ellenszegülsz.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>DB - Drive-By - Emberölés járművel.</h4>
+                <p>
+                  Példa: tilos ráállni járművel másik játékosra és úgy megölni.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>SK - SpawnKill - Spawnoláskor ölés.</h4>
+                <p>
+                  Példa: tilos megölni az a játékost aki éppen egy épületből be
+                  megy, kimegy mindaddig, amíg nem tölt be neki a pálya, nem
+                  mozog el cp-ből (kb 3-4 másodperc) továbbá azt, aki éppen
+                  bejelentkezett a játékba.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Force RP - Tilos a saját RP-det más játékosra ráerőltetned,
+                  illetve másik játékos helyett RP-zned!
+                </h4>
+                <p>
+                  Példa: tilos ilyet írnod, hogy /me megüti és ezért ő meghal..
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>NonRP - Nem RP-s cselekedet.</h4>
+                <p>
+                  Példa: tilos olyan dolgot tenni a játéban amit a valóságban
+                  sem tennél meg, leugratsz kocsival egy hegyről, stb.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Szereptévesztés - Minden olyan cselekedet amely nem tükrözi a
+                  karaktered személyiségét.
+                </h4>
+                <p>Példa: mentősként anyázol a rendőrnek majd fejbe lövöd.</p>
+              </div>
+            </div>
+            <div class="rule-section" id="property-rules">
+              <h3>Ingatlan szabályok</h3>
+
+              <div class="rule-item">
+                <h4>1. Ingatlanvásárlás</h4>
+                <p>
+                  Csak olyan ingatlanokat vásárolhatsz, amelyek eladóként vannak
+                  megjelölve. RP nélkül nem szállhatsz be mások házába.
+                </p>
+              </div>
+
+              <div class="rule-item">
+                <h4>2. Ingatlanbiztonság</h4>
+                <p>
+                  Az ingatlanok biztonsági rendszereit csak RP keretében lehet
+                  megkerülni.
+                </p>
+              </div>
+            </div>
+
+            <div class="rule-section" id="admin-rules">
+              <h3>Adminisztrátori szabályok</h3>
+
+              <div class="rule-item">
+                <h4>
+                  Az adminok a szerver szabályzatának betartatásáért felelnek a
+                  játékotok folyamán, amennyiben nem értesz vele egyet, vagy
+                  jogtalannak találod a döntését, abban az esetben lehetőséged
+                  van jelezni felénk az adminpanaszkönyvben! Kérdésekkel az
+                  adminsegédekhez forduljatok!
+                </h4>
+                <p>
+                  Panaszkönyvet discordon tudsz nyitni az adminisztrátorokra.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Az admint bármilyen formában rágalmazni/minősíteni tilos!
+                </h4>
+                <p>Ilyen esetben kitiltással szankcionálnak az adminok.</p>
+              </div>
+              <div class="rule-item">
+                <h4>Csak az az admin vehet ki jailből aki berakott!</h4>
+                <p>
+                  Nem vehet ki senki jailből téged csak az aki berakott, vagy ha
+                  Fő/SzuperAdmin felülbírálja az adott admin szankcióját.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Segítségkérés során kötelező az adminisztrátorral
+                  tiszteletteljesen beszélni. Gondodat, panaszodat, kérésedet
+                  mindig egyértelműen, röviden fogalmazd meg.
+                </h4>
+                <p>Fölösleges reportokat próbáljátok meg hanyagolni.</p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Szerveren tilos az adminoktól unbant kérni! Csak discordon az
+                  unban kérelem topicban lehet!
+                </h4>
+                <p>
+                  Haverodnak, cimborádnak ne szerveren próbálj unbant intézni,
+                  erre van a fórum.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>
+                  Szerveren tilos az adminokat negatívan értékelni csak azért,
+                  mert neked nem tetszett a bírálata/nem adott fixet, vagy mert
+                  megsértődtél, jogosan szankcionált.
+                </h4>
+                <p>
+                  Csak olyan esetben lehet negatívan értékelni az admint ha az
+                  ügyintézés alatt a stílusával volt probléma, esetleg hibázott.
+                  Azért mert nem ad fixet vagy bármilyen nem normális dolog
+                  miatt negatív értékelés leadás bant vonhat maga után.
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>Tilos az adminoknak hazudni!</h4>
+                <p>
+                  Amennyiben megpróbálod átverni az admint kitiltásban
+                  részesülsz..
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>Tilos az adminoknak hazudni!</h4>
+                <p>
+                  Amennyiben megpróbálod átverni az admint kitiltásban
+                  részesülsz..
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>Tilos az adminoknak hazudni!</h4>
+                <p>
+                  Amennyiben megpróbálod átverni az admint kitiltásban
+                  részesülsz..
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>Tilos az adminoknak hazudni!</h4>
+                <p>
+                  Amennyiben megpróbálod átverni az admint kitiltásban
+                  részesülsz..
+                </p>
+              </div>
+              <div class="rule-item">
+                <h4>Tilos az adminoknak hazudni!</h4>
+                <p>
+                  Amennyiben megpróbálod átverni az admint kitiltásban
+                  részesülsz..
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="concepts">
+      <div class="container">
+        <h2 class="section-title">Fogalmak</h2>
+        <div class="rules-content">
+          <div class="rule-section">
+            <h3>Általános fogalmak</h3>
+            <ul class="term-list">
+              <li>
+                <strong>MTA (Multi Theft Auto)</strong> - Egy nyílt forráskódú
+                keretrendszer, amely lehetővé teszi a Grand Theft Auto: San
+                Andreas multiplayer módjának testreszabását.
+              </li>
+              <li>
+                <strong>RP (RolePlay)</strong> - Szerepjáték, ahol a játékosok
+                valósághű karaktereket alakítanak, és interakcióba lépnek
+                egymással.
+              </li>
+              <li>
+                <strong>IC (In-Character)</strong> - A játékos karakterének
+                személyisége és cselekedetei a játék világában.
+              </li>
+              <li>
+                <strong>OOC (Out-of-Character)</strong> - A játékos valódi énje,
+                aki a karakterét irányítja.
+              </li>
+              <li>
+                <strong>DM (Deathmatch)</strong> - Olyan játékstílus, ahol a cél
+                véletlenszerűen más játékosok megölése, RP kontextus nélkül.
+              </li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h3>Játékmechanikai fogalmak</h3>
+            <ul class="term-list">
+              <li>
+                <strong>NLR (New Life Rule)</strong> - Szabály, amely szerint
+                halál után a karakter nem emlékezhet előző élete eseményeire.
+              </li>
+              <li>
+                <strong>RDM (Random Deathmatch)</strong> - Indokolatlanul, RP
+                kontextus nélkül más játékosok megölése.
+              </li>
+              <li>
+                <strong>VDM (Vehicle Deathmatch)</strong> - Járművel való
+                indokolatlan támadás más játékosok ellen.
+              </li>
+              <li>
+                <strong>Meta-gaming</strong> - OOC információk használata IC
+                szituációkban.
+              </li>
+              <li>
+                <strong>Power-gaming</strong> - Túlerejű karakterek létrehozása,
+                akik minden helyzetből győztesen kerülnek ki.
+              </li>
+              <li>
+                <strong>Fear RP</strong> - A félelem valósághű ábrázolása
+                veszélyes szituációkban.
+              </li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h3>Közösségi fogalmak</h3>
+            <ul class="term-list">
+              <li>
+                <strong>Staff</strong> - A szerver adminisztrátorai és
+                moderátorai, akik felelősek a szabályok betartatásáért.
+              </li>
+              <li>
+                <strong>Report</strong> - Jelentés egy szabályszegésről vagy
+                problémáról az adminisztrátoroknak.
+              </li>
+              <li>
+                <strong>Ban</strong> - Kitiltás a szerverről egy meghatározott
+                időre vagy végleg.
+              </li>
+              <li>
+                <strong>Kick</strong> - Ideiglenes eltávolítás a szerverről.
+              </li>
+              <li>
+                <strong>Warn</strong> - Figyelmeztetés egy szabályszegés miatt.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute("href");
+          if (targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Highlight current section in navigation
+      window.addEventListener("scroll", function () {
+        const sections = document.querySelectorAll(".rule-section");
+        const navLinks = document.querySelectorAll(".rules-nav a");
+
+        let currentSection = "";
+
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          if (window.scrollY >= sectionTop - 100) {
+            currentSection = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${currentSection}`) {
+            link.classList.add("active");
+            link.style.color = "var(--accent)";
+          } else {
+            link.style.color = "";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
