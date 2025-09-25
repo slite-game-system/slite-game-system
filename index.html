@@ -436,10 +436,19 @@
               </li>
             </ul>
             <button
-              class="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 mt-auto"
-            >
-              <i class="fas fa-shopping-cart mr-2"></i>Vásárlás
-            </button>
+  class="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 mt-auto"
+  onclick="openDiscordInvite()"
+>
+  <i class="fas fa-shopping-cart mr-2"></i>Vásárlás
+</button>
+
+<script>
+  function openDiscordInvite() {
+    // Ide jön a Discord szerver meghívó linkje
+    const inviteLink = "https://discord.gg/ABCD1234"; 
+    window.open(inviteLink, "_blank"); // új ablakban nyitja meg
+  }
+</script>
           </div>
 
           <!-- Silver Package -->
@@ -934,5 +943,6 @@
     </script>
   </body>
 </html>
+
 
 
